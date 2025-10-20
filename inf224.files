@@ -1,0 +1,16 @@
+Makefile
+Makefile-cliserv
+ccsocket.cpp
+ccsocket.h
+client.cpp
+film.h
+group.h
+handler.h
+main.cpp
+media.cpp
+media.h
+photo.h
+server.cpp
+tcpserver.cpp
+tcpserver.h
+video.h
