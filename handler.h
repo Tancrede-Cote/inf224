@@ -20,10 +20,10 @@ public:
     std::shared_ptr<Group> addGroup(std::string name){auto temp = std::make_shared<Group>(name);if(!medias.count(name)){groups.emplace(name,temp);}else{std::cout<<"group "<<name<<" already exists"<<std::endl;}return temp;}
     std::shared_ptr<Media> findMedia(std::string name){try {return medias.at(name);}catch(const std::out_of_range& ex){std::cout<<"couldn't find specified element"<<std::endl;}}
     void printMedia(std::string name){try {std::cout<<*medias.at(name)<<std::endl;}catch(const std::out_of_range& ex){std::cout<<"couldn't find specified element"<<std::endl;}}
-    std::ostream& getMedia(std::string name, std::ostream& os){try {return medias.at(name)->print(os);}catch(const std::out_of_range& ex){std::cout<<"couldn't find specified element"<<std::endl;}}
+    std::ostream& getMedia(std::string name, std::ostream& os){try {return medias.at(name)->print(os);}catch(const std::out_of_range& ex){throw std::runtime_error("couldn't find specified element");}}
     void printGroup(std::string name){try {std::cout<<*groups.at(name)<<std::endl;}catch(const std::out_of_range& ex){std::cout<<"couldn't find specified group"<<std::endl;}}
-    void playMedia(std::string name){try {medias.at(name)->play();}catch(const std::out_of_range& ex){std::cout<<"couldn't find specified element"<<std::endl;}}
-    // friend std::ostream& operator<<(std::ostream& os, const std::string name){return getMedia(name,os);}
+    std::ostream& getGroup(std::string name, std::ostream& os){try {return groups.at(name)->print(os);}catch(const std::out_of_range& ex){throw std::runtime_error("couldn't find specified group");}}
+    void playMedia(std::string name){try {medias.at(name)->play();}catch(const std::out_of_range& ex){throw std::runtime_error("couldn't play specified media");}}
 };
 
 #endif // HANDLER_H

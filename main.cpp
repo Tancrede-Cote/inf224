@@ -32,6 +32,7 @@ int main(int argc, const char* argv[])
     for (int i=0; i<8; i++){
         len2[i] = 3+2*i;
     }
+    auto test3 = h.addPhoto("shrek.jpg", "shrek.jpg", 45.f,60.f);
     auto test4 = h.addFilm("film.mp4", "path/film.mp4", 456, len, 5);
     auto test5 = h.addVideo("video.mp4", "path/folder/video.mp4", 456);
     group->push_back(test4);
@@ -48,7 +49,6 @@ int main(int argc, const char* argv[])
         std::string temp;
         std::vector<std::string>v;
         while(getline(test,temp,' ')){
-            std::cout<<"wow"<<std::endl;
             v.push_back(temp);
         }
             // the request sent by the client to the server
@@ -57,25 +57,33 @@ int main(int argc, const char* argv[])
         if (!v.empty()){
             if(!v[0].compare("print")){
                 if(v.size()>1){
-                    v.erase(v.begin());// remove "add"
-                    for (auto& media : v){
-                        h.getMedia(media,test2);
-                        //std::cout<<test.str()<<std::endl;
+                    try {
+                        h.getMedia(v[1],test2);
                         response = test2.str();
+                    } catch(std::exception e) {
+                        response = "can't find group with name "+v[1];
                     }
                 } else {
                     response = "must precise media name";
                 }
             } else if(!v[0].compare("printg")){
                 if (v.size()>1){
-                    v.erase(v.begin());// remove "add"
-                    for (auto& group : v){
-                        h.printGroup(group);
+                    try {
+                        h.getGroup(v[1],test2);
+                        response = test2.str();
+                    } catch(std::exception e) {
+                        response = "can't find group with name "+v[1];
                     }
+                } else {
+                    response = "must precise group name";
                 }
             }else if(!v[0].compare("play")){
                 if(v.size()>1){
-                    h.playMedia(v[1]);// by default only plays the first specified media
+                    try {
+                        h.playMedia(v[1]);
+                    } catch(std::exception e) {
+                        response = "can't play media with name "+v[1];
+                    }
                 } else {
                     response = "media name must be specified";
                 }
